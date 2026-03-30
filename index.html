@@ -1103,11 +1103,12 @@ footer {
   backdrop-filter: blur(4px);
   z-index: 9100;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s;
   touch-action: manipulation;
 }
 
-.mobile-drawer-overlay.open { opacity: 1; }
+.mobile-drawer-overlay.open { opacity: 1; pointer-events: all; }
 
 .mobile-drawer a, .mobile-drawer button.drawer-link {
   display: flex;
