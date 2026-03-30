@@ -973,17 +973,270 @@ footer {
   animation: spin 0.7s linear infinite;
 }
 
-/* Responsive */
+/* ── MOBILE BOTTOM DASHBOARD NAV ── */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(10, 21, 32, 0.96);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border2);
+  padding: 8px 0 env(safe-area-inset-bottom, 8px);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.4);
+}
+
+.mobile-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+}
+
+.mnav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  transition: all 0.2s;
+  flex: 1;
+  max-width: 72px;
+  position: relative;
+}
+
+.mnav-item svg {
+  width: 20px; height: 20px;
+  stroke: var(--text3);
+  transition: stroke 0.2s, transform 0.2s;
+}
+
+.mnav-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--text3);
+  text-transform: uppercase;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.mnav-item.active svg { stroke: var(--accent); }
+.mnav-item.active .mnav-label { color: var(--accent); }
+.mnav-item:hover svg { stroke: var(--text2); transform: translateY(-1px); }
+.mnav-item:hover .mnav-label { color: var(--text2); }
+
+.mnav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%; transform: translateX(-50%);
+  width: 4px; height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent);
+}
+
+/* Reviews lock badge */
+.mnav-lock {
+  position: absolute;
+  top: 4px; right: 8px;
+  font-size: 8px;
+  opacity: 0.6;
+}
+
+/* Mobile hamburger */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--text2);
+}
+
+/* Mobile nav drawer */
+.mobile-drawer {
+  display: none;
+  position: fixed;
+  top: 0; right: 0;
+  width: min(300px, 85vw);
+  height: 100vh;
+  background: var(--bg2);
+  border-left: 1px solid var(--border2);
+  z-index: 300;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  padding: 80px 24px 32px;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.mobile-drawer.open { transform: translateX(0); }
+
+.mobile-drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5,13,20,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 299;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.mobile-drawer-overlay.open { opacity: 1; }
+
+.mobile-drawer a, .mobile-drawer button.drawer-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--r);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text2);
+  text-decoration: none;
+  transition: all 0.2s;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--sans);
+}
+
+.mobile-drawer a:hover, .mobile-drawer button.drawer-link:hover {
+  background: var(--card);
+  color: var(--accent);
+}
+
+.drawer-section-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--text3);
+  text-transform: uppercase;
+  padding: 16px 16px 6px;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+}
+
+.drawer-close {
+  position: absolute;
+  top: 20px; right: 16px;
+  background: none; border: none;
+  color: var(--text3); cursor: pointer;
+  padding: 8px; border-radius: 8px;
+}
+
+.drawer-close:hover { color: var(--text); background: var(--card); }
+
+/* ── COMPREHENSIVE RESPONSIVE ── */
 @media (max-width: 768px) {
-  .demo-grid { grid-template-columns: 1fr; }
-  .tech-grid { grid-template-columns: 1fr 1fr; }
-  .metrics-grid { grid-template-columns: 1fr 1fr; }
-  nav { padding: 0 20px; }
+  /* Show mobile nav, hide desktop nav links */
+  .mobile-nav { display: block; }
+  .mobile-menu-btn { display: flex; }
+  .mobile-drawer { display: flex; }
+  .mobile-drawer-overlay { display: block; }
   .nav-links { display: none; }
-  .section { padding: 60px 20px; }
-  #demo { padding: 60px 20px; }
-  #metrics { padding: 60px 20px; }
-  footer { flex-direction: column; gap: 12px; text-align: center; }
+
+  /* Spacing fixes for bottom nav */
+  body { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+
+  /* Nav */
+  nav { padding: 0 16px; height: 56px; }
+
+  /* Hero */
+  #hero { padding: 72px 20px 40px; min-height: auto; }
+  .hero-title { font-size: clamp(36px, 9vw, 56px); }
+  .hero-subtitle { font-size: 14px; margin-bottom: 32px; }
+  .hero-viz { width: 160px; height: 160px; margin-bottom: 36px; }
+  .br4 { width: 150px; height: 150px; }
+  .br3 { width: 120px; height: 120px; }
+  .br2 { width: 90px; height: 90px; }
+  .br1 { width: 60px; height: 60px; }
+  .hero-stats { gap: 24px; flex-wrap: wrap; margin-bottom: 32px; }
+  .stat-num { font-size: 22px; }
+  .cta-row { flex-direction: column; align-items: center; gap: 12px; }
+  .btn-primary, .btn-outline { width: 100%; max-width: 320px; justify-content: center; }
+
+  /* Sections */
+  .section { padding: 56px 20px; }
+  .section-title { font-size: clamp(26px, 7vw, 36px); }
+
+  /* Demo */
+  #demo { padding: 56px 20px; }
+  .demo-grid { grid-template-columns: 1fr; gap: 16px; }
+  .demo-card { padding: 24px 20px; }
+  .results-card { padding: 24px 20px; min-height: 320px; }
+  .condition-picker { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .timer-ring-wrap { width: 80px; height: 80px; }
+  .timer-ring-wrap svg { width: 80px; height: 80px; }
+  .timer-num { font-size: 22px; }
+
+  /* Pipeline */
+  .pipe-step { grid-template-columns: 44px 1fr; gap: 16px; }
+  .pipe-num { width: 44px; height: 44px; font-size: 12px; }
+  .pipeline-steps::before { left: 21px; }
+
+  /* Tech */
+  .tech-grid { grid-template-columns: 1fr; gap: 12px; }
+  .tech-card { padding: 20px 16px; }
+
+  /* Metrics */
+  #metrics { padding: 56px 20px; }
+  .metrics-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .metric-card { padding: 24px 16px; }
+  .metric-num { font-size: 36px; }
+
+  /* History table → card layout */
+  .history-table thead { display: none; }
+  .history-table, .history-table tbody, .history-table tr, .history-table td {
+    display: block; width: 100%;
+  }
+  .history-table tr {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    margin-bottom: 10px;
+    padding: 14px 16px;
+  }
+  .history-table td {
+    border: none;
+    padding: 3px 0;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .history-table td::before {
+    content: attr(data-label);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--text3);
+    text-transform: uppercase;
+    min-width: 80px;
+    flex-shrink: 0;
+  }
+  .history-table td[colspan] { justify-content: center; padding: 8px 0; }
+  .history-table td[colspan]::before { display: none; }
+
+  /* Footer */
+  footer { flex-direction: column; gap: 12px; text-align: center; padding: 28px 20px calc(28px + env(safe-area-inset-bottom, 0px)); }
+
+  /* Login modal */
+  .login-modal { padding: 36px 24px; border-radius: 20px; }
+
+  /* Result meta chips scroll */
+  .result-meta { flex-wrap: wrap; gap: 8px; }
 }
 
 /* ── GOOGLE LOGIN ── */
@@ -1146,6 +1399,13 @@ footer {
     <span class="logo-text">Respi<span>Core</span></span>
     <span class="nav-badge">v1.0 DEMO</span>
   </div>
+  <!-- Mobile menu button -->
+  <button class="mobile-menu-btn" onclick="toggleDrawer()" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+
   <div class="nav-links">
     <a href="#demo" data-i18n="navDemo">Live Demo</a>
     <a href="#pipeline" data-i18n="navPipeline">Pipeline</a>
@@ -1477,7 +1737,7 @@ footer {
     </thead>
     <tbody id="historyBody">
       <tr>
-        <td style="color:var(--text3);font-family:var(--mono);font-size:11px" colspan="5">No triage records yet. Run a demo above to generate a report.</td>
+        <td style="color:var(--text3);font-family:var(--mono);font-size:11px" colspan="5" data-label="">No triage records yet. Run a demo above to generate a report.</td>
       </tr>
     </tbody>
   </table>
@@ -1987,10 +2247,207 @@ function updateReviewsLink() {
   }
 }
 
-// Restore session
-renderAuth();
-updateReviewsLink();
+// ── MOBILE DRAWER ──
+function toggleDrawer() {
+  const drawer = document.getElementById('mobileDrawer');
+  const overlay = document.getElementById('drawerOverlay');
+  const isOpen = drawer.classList.contains('open');
+  if (isOpen) {
+    closeDrawer();
+  } else {
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    syncDrawerAuth();
+  }
+}
+
+function closeDrawer() {
+  document.getElementById('mobileDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function syncDrawerAuth() {
+  const area = document.getElementById('drawerAuthArea');
+  if (!area) return;
+  if (!currentUser) {
+    area.innerHTML = `<button class="btn-login" onclick="closeDrawer();openLogin();" style="width:100%;justify-content:center;">
+      <svg class="g-icon" viewBox="0 0 24 24" fill="none" width="14" height="14">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg> Sign in
+    </button>`;
+  } else {
+    const initials = currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    area.innerHTML = `<div style="display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--card);border-radius:var(--r);border:1px solid var(--border);">
+      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#050d14;font-family:var(--mono);flex-shrink:0;">${initials}</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--text)">${currentUser.name}</div>
+        <div style="font-size:10px;color:var(--text3);font-family:var(--mono)">${currentUser.email}</div>
+      </div>
+      <button onclick="signOut();closeDrawer();" style="margin-left:auto;background:none;border:none;cursor:pointer;color:var(--text3);padding:4px;border-radius:6px;" title="Sign out">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+      </button>
+    </div>`;
+  }
+}
+
+// ── MOBILE BOTTOM NAV ACTIVE STATE ──
+function setMobileActive(el) {
+  document.querySelectorAll('.mnav-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+}
+
+function handleMobileReviews() {
+  openReviews();
+}
+
+// ── SCROLL SPY for mobile bottom nav ──
+const SECTIONS_SPY = ['hero', 'demo', 'metrics', 'history'];
+function scrollSpy() {
+  if (window.innerWidth > 768) return;
+  let current = 'hero';
+  const scrollY = window.scrollY + window.innerHeight * 0.35;
+  SECTIONS_SPY.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop <= scrollY) current = id;
+  });
+  document.querySelectorAll('.mnav-item[data-section]').forEach(item => {
+    item.classList.toggle('active', item.dataset.section === current);
+  });
+}
+
+window.addEventListener('scroll', scrollSpy, { passive: true });
+window.addEventListener('resize', scrollSpy, { passive: true });
+
+// Patch history rows to include data-label for mobile cards
+const _origAppendHistory = window.appendHistory;
+function patchHistoryRow(tr) {
+  const labels = ['Timestamp','Duration','Classification','Confidence','Inference'];
+  tr.querySelectorAll('td').forEach((td, i) => {
+    if (!td.hasAttribute('colspan') && labels[i]) td.setAttribute('data-label', labels[i]);
+  });
+}
+
+// Observe historyBody for new rows and patch them
+const hBody = document.getElementById('historyBody');
+if (hBody) {
+  new MutationObserver(muts => {
+    muts.forEach(m => m.addedNodes.forEach(n => { if (n.tagName === 'TR') patchHistoryRow(n); }));
+  }).observe(hBody, { childList: true });
+}
+scrollSpy();
+
 </script>
+
+<!-- MOBILE DRAWER OVERLAY -->
+<div class="mobile-drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <button class="drawer-close" onclick="closeDrawer()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:24px;padding:0 4px;">
+    <div class="logo-icon" style="width:28px;height:28px;flex-shrink:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--accent);width:16px;height:16px;">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+        <path d="M8 12h1l2-4 2 8 2-5 1 1h2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="logo-text" style="font-size:15px;">Respi<span>Core</span></span>
+    <span class="nav-badge">v1.0 DEMO</span>
+  </div>
+
+  <div style="padding:0 4px;" id="drawerAuthArea"></div>
+
+  <div class="drawer-section-label">Navigation</div>
+  <a href="#demo" onclick="closeDrawer()" data-i18n="navDemo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+    Live Demo
+  </a>
+  <a href="#pipeline" onclick="closeDrawer()" data-i18n="navPipeline">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    Pipeline
+  </a>
+  <a href="#stack" onclick="closeDrawer()" data-i18n="navTech">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    Technology
+  </a>
+  <a href="#metrics" onclick="closeDrawer()" data-i18n="navMetrics">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    Metrics
+  </a>
+  <a href="#history" onclick="closeDrawer()" data-i18n="navReports">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    Reports
+  </a>
+  <button class="drawer-link" onclick="closeDrawer(); openReviews();" style="color:var(--accent)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    Reviews
+  </button>
+
+  <div class="drawer-section-label">Language</div>
+  <div style="display:flex;gap:8px;padding:8px 16px;">
+    <button class="lang-btn active" onclick="setLang('en');closeDrawer()">EN</button>
+    <button class="lang-btn" onclick="setLang('hi');closeDrawer()">हिं</button>
+    <button class="lang-btn" onclick="setLang('bn');closeDrawer()">বাং</button>
+  </div>
+
+  <div class="drawer-section-label">About</div>
+  <a href="respicore_about.html" target="_blank" onclick="closeDrawer()" style="color:var(--accent)" data-i18n="navAbout">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    Our Story
+  </a>
+</div>
+
+<!-- MOBILE BOTTOM DASHBOARD NAV -->
+<nav class="mobile-nav" id="mobileBottomNav">
+  <div class="mobile-nav-inner">
+    <a href="#hero" class="mnav-item active" data-section="hero" onclick="setMobileActive(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+      </svg>
+      <span class="mnav-label">Home</span>
+    </a>
+    <a href="#demo" class="mnav-item" data-section="demo" onclick="setMobileActive(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="mnav-label">Demo</span>
+    </a>
+    <a href="#metrics" class="mnav-item" data-section="metrics" onclick="setMobileActive(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+      </svg>
+      <span class="mnav-label">Metrics</span>
+    </a>
+    <a href="#history" class="mnav-item" data-section="history" onclick="setMobileActive(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
+      </svg>
+      <span class="mnav-label">Reports</span>
+    </a>
+    <button class="mnav-item" onclick="handleMobileReviews()" id="mobileReviewsBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+      </svg>
+      <span class="mnav-label">Reviews</span>
+    </button>
+    <button class="mnav-item" onclick="toggleDrawer()" id="mobileMoreBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="mnav-label">More</span>
+    </button>
+  </div>
+</nav>
 
 <!-- LOGIN MODAL -->
 <div class="login-overlay" id="loginOverlay">
