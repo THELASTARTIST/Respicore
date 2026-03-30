@@ -327,17 +327,53 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);
   /* Timeline */
   #timeline { padding: 60px 0; }
   .timeline-heading { padding: 0 20px; margin-bottom: 48px; }
-  .timeline-track { padding: 0 20px; }
+  .timeline-track { padding: 0 16px 0 20px; }
   .timeline-track::before { left: 20px; transform: none; }
-  .tl-item { grid-template-columns: 28px 1fr; gap: 0; margin-bottom: 40px; }
-  .tl-content-left { display: none; }
+
+  /* All items: dot | content, single column layout */
+  .tl-item {
+    grid-template-columns: 28px 1fr;
+    grid-template-rows: auto;
+    gap: 0;
+    margin-bottom: 40px;
+    align-items: start;
+  }
+
+  /* Hide the empty spacer divs */
+  .tl-empty { display: none; }
+
+  /* Odd items: content is in tl-content-left — show it, place it in col 2 */
+  .tl-content-left {
+    display: block;
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 0;
+    grid-column: 2;
+    grid-row: 1;
+  }
+  /* Dot col 1 for odd */
+  .tl-item:nth-child(odd) .tl-dot {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  /* Even items: content is in tl-content-right */
   .tl-item:nth-child(even) .tl-content-left { display: none; }
-  .tl-item:nth-child(even) .tl-content-right { order: 2; padding-left: 20px; }
-  .tl-item:nth-child(even) .tl-dot { order: 1; }
-  .tl-content-right,
-  .tl-item:nth-child(even) .tl-content-right { padding-left: 20px; }
+  .tl-item:nth-child(even) .tl-dot {
+    order: unset;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .tl-item:nth-child(even) .tl-content-right {
+    order: unset;
+    padding-left: 20px;
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .tl-content-right { padding-left: 20px; }
   .tl-dot-inner { margin-top: 4px; }
-  .tl-heading { font-size: 18px; }
+  .tl-heading { font-size: 17px; }
+  .tl-body { font-size: 13px; }
 
   /* Team */
   #team { padding: 60px 20px; }

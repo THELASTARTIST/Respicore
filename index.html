@@ -1086,7 +1086,7 @@ footer {
   z-index: 9200;
   transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-  padding: 80px 24px 32px;
+  padding: 60px 20px calc(80px + env(safe-area-inset-bottom, 0px));
   flex-direction: column;
   gap: 8px;
   overflow-y: auto;
@@ -1114,7 +1114,7 @@ footer {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 16px;
+  padding: 11px 16px;
   border-radius: var(--r);
   font-size: 14px;
   font-weight: 600;
@@ -1143,9 +1143,9 @@ footer {
   letter-spacing: 0.2em;
   color: var(--text3);
   text-transform: uppercase;
-  padding: 16px 16px 6px;
+  padding: 10px 16px 4px;
   border-top: 1px solid var(--border);
-  margin-top: 8px;
+  margin-top: 4px;
 }
 
 .drawer-close {
