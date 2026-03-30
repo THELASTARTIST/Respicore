@@ -258,22 +258,115 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
 
+/* ── MOBILE BOTTOM BACK BAR ── */
+.mobile-back-bar {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 9000;
+  background: rgba(10,21,32,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(120,200,255,0.15);
+  padding: 10px 20px calc(10px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.5);
+}
+.mobile-back-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.mobile-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+  text-decoration: none;
+  border: 1px solid rgba(120,200,255,0.2);
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: transparent;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.mobile-back-btn:active { background: var(--card); color: var(--accent); }
+.mobile-lang-row {
+  display: flex;
+  gap: 6px;
+}
+.mobile-lang-row .lang-btn {
+  padding: 8px 12px;
+  font-size: 11px;
+}
+
 /* Responsive */
 @media(max-width:768px){
-  nav{padding:0 20px;}
-  .timeline-track::before{left:20px;}
-  .tl-item{grid-template-columns:20px 1fr;gap:0;}
-  .tl-content-left{display:none;}
-  .tl-item:nth-child(even) .tl-content-left{display:none;}
-  .tl-item:nth-child(even) .tl-content-right{order:2;padding-left:24px;}
-  .tl-item:nth-child(even) .tl-dot{order:1;}
-  .tl-content-right,.tl-item:nth-child(even) .tl-content-right{padding-left:24px;}
-  .team-grid{grid-template-columns:repeat(2,1fr);}
-  .compare-grid{grid-template-columns:1fr;}
-  .compare-table-wrap{grid-column:1;}
-  .stat-strip{grid-template-columns:1fr 1fr;}
-  .privacy-cards{grid-template-columns:1fr;}
-  footer{flex-direction:column;gap:12px;text-align:center;}
+  /* Nav */
+  nav { padding: 0 16px; height: 56px; }
+  .nav-right { gap: 12px; }
+  .lang-switcher { display: none; }
+  .btn-back { display: none; }
+
+  /* Show mobile back bar */
+  .mobile-back-bar { display: block; }
+
+  /* Body padding for fixed bottom bar */
+  body { padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)); }
+
+  /* Hero */
+  #story-hero { padding: 80px 20px 60px; min-height: auto; }
+  .hero-title { font-size: clamp(36px,10vw,56px); }
+  .hero-sub { font-size: 14px; margin-bottom: 40px; }
+  .scroll-hint { display: none; }
+
+  /* Timeline */
+  #timeline { padding: 60px 0; }
+  .timeline-heading { padding: 0 20px; margin-bottom: 48px; }
+  .timeline-track { padding: 0 20px; }
+  .timeline-track::before { left: 20px; transform: none; }
+  .tl-item { grid-template-columns: 28px 1fr; gap: 0; margin-bottom: 40px; }
+  .tl-content-left { display: none; }
+  .tl-item:nth-child(even) .tl-content-left { display: none; }
+  .tl-item:nth-child(even) .tl-content-right { order: 2; padding-left: 20px; }
+  .tl-item:nth-child(even) .tl-dot { order: 1; }
+  .tl-content-right,
+  .tl-item:nth-child(even) .tl-content-right { padding-left: 20px; }
+  .tl-dot-inner { margin-top: 4px; }
+  .tl-heading { font-size: 18px; }
+
+  /* Team */
+  #team { padding: 60px 20px; }
+  .team-grid { grid-template-columns: repeat(2,1fr); gap: 16px; }
+  .team-card { padding: 24px 16px; }
+  .team-avatar { width: 56px; height: 56px; font-size: 20px; }
+  .team-name { font-size: 14px; }
+
+  /* Comparison */
+  #compare { padding: 60px 20px; }
+  .compare-grid { grid-template-columns: 1fr; gap: 16px; }
+  .compare-table-wrap { grid-column: 1; padding: 20px 16px; overflow-x: auto; }
+  .chart-card { padding: 24px 16px; }
+  .feat-table { min-width: 400px; }
+
+  /* Why */
+  #why { padding: 60px 20px; }
+  .stat-strip { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat-big { font-size: 40px; }
+  .quote-block { padding: 28px 20px; margin-top: 40px; }
+  .quote-text { font-size: clamp(17px,5vw,22px); }
+
+  /* Privacy */
+  #privacy { padding: 60px 20px; }
+  .privacy-cards { grid-template-columns: 1fr; gap: 14px; }
+  .priv-card { padding: 20px 16px; }
+
+  /* Footer */
+  footer { flex-direction: column; gap: 12px; text-align: center; padding: 28px 20px calc(28px + env(safe-area-inset-bottom,0px)); }
 }
 </style>
 </head>
@@ -962,5 +1055,23 @@ document.addEventListener('DOMContentLoaded', () => {
   applyTranslations('en');
 });
 </script>
+
+<!-- MOBILE BACK BAR -->
+<div class="mobile-back-bar">
+  <div class="mobile-back-bar-inner">
+    <a class="mobile-back-btn" href="index.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="pointer-events:none;flex-shrink:0;">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      <span data-i18n="backBtn">Back to App</span>
+    </a>
+    <div class="mobile-lang-row">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('hi')">हिं</button>
+      <button class="lang-btn" onclick="setLang('bn')">বাং</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
