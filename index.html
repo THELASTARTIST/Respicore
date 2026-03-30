@@ -2244,12 +2244,12 @@ function showLoginToast(msg) {
   if (!t) {
     t = document.createElement('div');
     t.id = 'loginToast';
-    t.style.cssText = 'position:fixed;bottom:32px;left:32px;z-index:999;background:var(--card);color:var(--text);padding:14px 20px;border-radius:12px;border:1px solid rgba(0,200,255,0.3);font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;transform:translateY(60px);opacity:0;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 12px 40px rgba(0,0,0,0.3);';
+    t.style.cssText = 'position:fixed;bottom:calc(72px + env(safe-area-inset-bottom, 8px) + 12px);left:50%;transform-origin:center bottom;z-index:9999;background:var(--card);color:var(--text);padding:14px 20px;border-radius:12px;border:1px solid rgba(0,200,255,0.3);font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;transform:translateY(60px) translateX(-50%);opacity:0;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 12px 40px rgba(0,0,0,0.3);white-space:nowrap;';
     document.body.appendChild(t);
   }
   t.innerHTML = '<span style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;flex-shrink:0;"></span> ' + msg;
-  requestAnimationFrame(() => { t.style.transform = 'translateY(0)'; t.style.opacity = '1'; });
-  setTimeout(() => { t.style.transform = 'translateY(60px)'; t.style.opacity = '0'; }, 3200);
+  requestAnimationFrame(() => { t.style.transform = 'translateY(0) translateX(-50%)'; t.style.opacity = '1'; });
+  setTimeout(() => { t.style.transform = 'translateY(60px) translateX(-50%)'; t.style.opacity = '0'; }, 3200);
 }
 
 function updateReviewsLink() {
@@ -2322,8 +2322,8 @@ function syncDrawerAuth() {
   }
 }
 
-// ── MOBILE BOTTOM NAV — bind via addEventListener ──
-document.addEventListener('DOMContentLoaded', function() {
+// ── MOBILE BOTTOM NAV — bind directly (script runs after DOM is parsed) ──
+(function bindMobileNav() {
   // Anchor nav items
   document.querySelectorAll('.mnav-item[data-section]').forEach(function(item) {
     item.addEventListener('click', function() {
@@ -2383,7 +2383,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Hamburger in top nav
   var hamburger = document.getElementById('mobileHamburger');
   if (hamburger) hamburger.addEventListener('click', toggleDrawer);
-});
+})();
 
 // ── MOBILE BOTTOM NAV ACTIVE STATE ──
 function setMobileActive(el) {
